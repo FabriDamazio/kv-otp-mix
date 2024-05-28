@@ -1,4 +1,8 @@
 defmodule KV.Bucket do
+  @moduledoc """
+  Usado para guardar registros de pares de chave e valor.
+  """
+
   # Injeta código contido na função __using__/1 do módulo Agent
   use Agent
 
