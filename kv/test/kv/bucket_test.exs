@@ -5,8 +5,9 @@ defmodule KV.BucketTest do
   use ExUnit.Case, async: true
 
   setup do
-    {:ok, bucket} = KV.Bucket.start_link([])
-    %{bucket: bucket}
+    # start_link_supervised linka o processo iniciado ao processo do teste
+    # Isso garante que o processo vai ser desligado ANTES do próximo teste.
+    %{bucket: start_link_supervised!(KV.Bucket)}
   end
 
   test "stores values by key", %{bucket: bucket} do
