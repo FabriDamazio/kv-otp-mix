@@ -4,7 +4,7 @@ defmodule KV.Bucket do
   """
 
   # Injeta código contido na função __using__/1 do módulo Agent
-  use Agent
+  use Agent, restart: :temporary
 
   @doc """
   Inicia um novo bucket.

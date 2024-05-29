@@ -1,27 +1,37 @@
 defmodule KV.RegistryTest do
   use ExUnit.Case, async: true
 
-  setup do
+  # Não mais necessário porque mudou a implementação para user DynamicSupervisor
+  #setup do
     # start_link_supervised linka o processo iniciado ao processo do teste
     # Isso garante que o processo vai ser desligado ANTES do próximo teste.
-    %{registry: start_link_supervised!(KV.Registry)}
-  end
+    #%{registry: start_link_supervised!(KV.Registry)}
+  #end
 
-  test "spawn buckets", %{registry: registry} do
-    assert KV.Registry.lookup(registry, "shopping") == :error
+  test "spawn buckets" do
+    assert KV.Registry.lookup(KV.Registry, "shopping") == :error
 
-    KV.Registry.create(registry, "shopping")
-    assert {:ok, bucket} = KV.Registry.lookup(registry, "shopping")
+    KV.Registry.create(KV.Registry, "shopping")
+    assert {:ok, bucket} = KV.Registry.lookup(KV.Registry, "shopping")
 
     KV.Bucket.put(bucket, "milk", 1)
     assert KV.Bucket.get(bucket, "milk") == 1
   end
 
-  test "removes buckets on exit", %{registry: registry} do
-    KV.Registry.create(registry, "shopping")
-    {:ok, bucket} = KV.Registry.lookup(registry, "shopping")
+  test "removes buckets on exit" do
+    KV.Registry.create(KV.Registry, "shopping")
+    {:ok, bucket} = KV.Registry.lookup(KV.Registry, "shopping")
     Agent.stop(bucket)
 
-    assert KV.Registry.lookup(registry, "shopping") == :error
+    assert KV.Registry.lookup(KV.Registry, "shopping") == :error
+  end
+
+  test "removes buckets on crash" do
+    KV.Registry.create(KV.Registry, "shopping")
+    {:ok, bucket} = KV.Registry.lookup(KV.Registry, "shopping")
+
+    # Para o bucket com uma razão anormal
+    Agent.stop(bucket, :shutdown)
+    assert KV.Registry.lookup(KV.Registry, "shopping") == :error
   end
 end
