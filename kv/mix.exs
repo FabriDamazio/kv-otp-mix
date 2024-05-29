@@ -15,7 +15,8 @@ defmodule KV.MixProject do
   # Usado para gerar o arquivo da aplicação
   def application do
     [
-      extra_applications: [:logger]
+      mod: {KV, []},
+      extra_applications: [:logger, :wx, :observer, :runtime_tools]
     ]
   end
 
