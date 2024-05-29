@@ -22,7 +22,7 @@ defmodule KV.Registry do
     GenServer.call(server, {:lookup, name})
   end
 
-  @doc"""
+  @doc """
   Garante que um bucket tem um nome associado no server.
   """
   def create(server, name) do
@@ -75,5 +75,4 @@ defmodule KV.Registry do
     Logger.debug("Unexpected message in KV.Registry: #{inspect(msg)}")
     {:noreply, state}
   end
-
 end

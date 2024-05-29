@@ -2,11 +2,11 @@ defmodule KV.RegistryTest do
   use ExUnit.Case, async: true
 
   # Não mais necessário porque mudou a implementação para user DynamicSupervisor
-  #setup do
-    # start_link_supervised linka o processo iniciado ao processo do teste
-    # Isso garante que o processo vai ser desligado ANTES do próximo teste.
-    #%{registry: start_link_supervised!(KV.Registry)}
-  #end
+  # setup do
+  # start_link_supervised linka o processo iniciado ao processo do teste
+  # Isso garante que o processo vai ser desligado ANTES do próximo teste.
+  # %{registry: start_link_supervised!(KV.Registry)}
+  # end
 
   test "spawn buckets" do
     assert KV.Registry.lookup(KV.Registry, "shopping") == :error
